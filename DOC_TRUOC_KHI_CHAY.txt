@@ -1,0 +1,24 @@
+FRAME VIDEO TRANSLATOR - BAN CHIA SE WINDOWS
+
+1. Giai nen TOAN BO thu muc tu file RAR vao o dia, vi du D:\FrameVideoTranslator.
+   Khong chay truc tiep ben trong WinRAR.
+2. May can Python x64 co Tkinter va Python Launcher (lenh py).
+   Neu chua co, cai Python tu python.org; nen dung Python 3.12 x64.
+3. Lan dau: mo START_WINDOWS.bat, bam nut cai dat va mo ung dung.
+   Can Internet de tai thu vien Python. Co the ton dung luong vai GB.
+4. Cac lan sau: mo RUN_APP.bat.
+5. Chon video tren may, nhap API key cua BAN, chon noi luu va bat dau dich.
+   Goi API dich can Internet va tai khoan API co quota; chi phi theo tai khoan cua ban.
+
+GOI NAY BAO GOM:
+- Ma nguon da sua, huong dan, mau CSV va bo kiem thu.
+- FFmpeg/ffprobe va model OCR. Giu nguyen thu muc ffmpeg va models.
+- Giay phep/ghi chu thanh phan ben thu ba.
+
+GOI NAY KHONG BAO GOM:
+- Python, moi truong thu vien da cai tren may nguoi gui.
+- API key, cookies, video ca nhan hay ban sao luu phien lam viec.
+- File EXE doc lap. Day la ban chay bang Python, khong phai ban portable EXE.
+
+Neu loi cai dat: giu lai nhat ky de kiem tra. Khong sao chep thu muc .runtime
+hoac .venv tu may khac. Xem README.md va thu muc docs de biet them.

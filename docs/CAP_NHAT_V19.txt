@@ -1,0 +1,22 @@
+FRAME VIDEO TRANSLATOR — V19 COMPONENTS FIX
+
+CÀI VÀ SỬA
+1. Đóng app cũ, giải nén V19 vào thư mục mới, ví dụ C:\FrameV19.
+2. Chạy START_WINDOWS.bat; cửa sổ ghi V19 Components Fix.
+3. Khi chưa chạy tác vụ video, bấm Kiểm tra / sửa thành phần.
+4. App kiểm tra FFmpeg và FFprobe bằng -version; tệp hỏng không được coi là đã cài. App bỏ qua đường dẫn hỏng nếu tìm được công cụ khác chạy được.
+5. Nếu thiếu công cụ chạy được trên Windows x64, app tải ZIP từ gyan.dev, kiểm tra định dạng và lượng byte, giải nén trong thư mục phiên bản mới, kiểm tra cả hai EXE rồi mới đổi cấu hình. Không ghi đè EXE đang dùng. Cài lỗi giữa chừng giữ nguyên cấu hình cũ.
+6. Model có checksum đúng sẽ bỏ qua tải và nạp. Không cần chờ model khởi tạo chỉ để kiểm tra thành phần.
+7. Nếu app đang quét/dịch/xuất, nút sửa tạm khóa để tránh hai tác vụ cùng lúc.
+
+WINERROR 193 / ACCESS DENIED
+App báo rõ tệp lỗi. Windows Security/quyền thư mục vẫn có thể chặn EXE; V19 không tắt antivirus, không vượt chặn bảo mật. Khi sửa vẫn bị chặn, kiểm tra Properties và Windows Security Protection History hoặc chọn bộ FFmpeg hợp lệ trong Cài đặt. Nếu máy không phải Windows x64, chọn bộ công cụ phù hợp máy thay cho tải tự động.
+
+TIẾN ĐỘ TẢI
+Có Content-Length: hiển thị %. Không có: hiển thị MB đã tải, không đứng ở 0%. Đang kết nối là trạng thái riêng. Mạng chậm/ngắt có thể thất bại và cần bấm lại; chưa có tải tiếp phần ZIP bị ngắt.
+
+DỮ LIỆU CŨ
+Giữ nguyên thư mục dự án/cache. Chọn lại Excel và đúng thư mục đích cũ hoặc cùng video/đầu ra để tiếp tục. OCR thích ứng, cache dịch, sửa dòng lỗi, video hoàn chỉnh/tạm được giữ từ V18.
+
+KIỂM TRA
+41 tests đạt: GUI, pipeline, OCR thích ứng, recovery/cache, component installer. Các tình huống Windows và tải mạng dùng mock. Kiểm tra thật trên Linux: ffmpeg/ffprobe -version và SHA256 model đóng gói, bỏ qua khởi tạo EasyOCR. Tệp EXE đóng gói là PE Windows x64; chưa chạy trực tiếp trên Windows, chưa tải ZIP thật trong lần kiểm tra này hoặc gọi API thật.

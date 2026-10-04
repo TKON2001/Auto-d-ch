@@ -1,0 +1,20 @@
+KIỂM THỬ V16 — 02/10/2026
+Nâng cấp từ bản V15 đã giao, giữ tài nguyên FFmpeg và model OCR.
+
+- 28 kiểm tra tự động: PASS (19 nền V15 + 6 biên tập/model-cache + 2 pause + 1 nút GUI).
+- Phát video thật 3s: đọc được khung hình, phát tiến lên, tạm dừng đứng thời gian,
+  nút Dừng đưa về đầu, tua đến 1.000s. PASS. Xem trực tiếp bản sửa chữ trên hình.
+- Xuất thật từ video gốc với vị trí Việt sửa thành X=512, Y=485: PASS.
+  69 hash gói âm thanh trùng nguồn thử; không OCR, không gọi API khi xuất bản chỉnh.
+- FFmpeg thật được đăng ký với nút pause/resume và xuất xong: PASS trên Linux.
+- EasyOCR thật: nạp đầu ~5.70s, dùng lại cùng Reader ~0.00064s trên CPU môi trường thử.
+  Chưa suy ra tốc độ máy Windows hoặc GPU của người dùng từ phép đo này.
+- Đã kiểm tra ảnh giao diện và bản xem trước có phụ đề đang sửa.
+
+GIỚI HẠN KIỂM THỬ
+Chưa chạy trên Windows thật hoặc kiểm thử psutil suspend trên Windows.
+Môi trường thử không có thiết bị âm thanh: kiểm tra dữ liệu âm thanh giữ nguyên,
+chưa nghe playback trên loa. Chưa gọi API GPT thật; OCR vẫn có thể sai/bỏ sót.
+Nút tạm dừng tác vụ không hủy yêu cầu API đã gửi; chỉ chặn bước kế tiếp sau khi trả về.
+Dữ liệu tiến trình tạm dừng nằm trong RAM; không phải chức năng khôi phục sau tắt máy.
+Xem KIEM_THU_V15.txt cho kiểm thử nền và giới hạn OCR của V15.

@@ -1,0 +1,127 @@
+BẢN HIỆN TẠI V19. Đọc CAP_NHAT_V19.txt trước. Ghi chú bên dưới là hướng dẫn/lịch sử bản trước.
+
+BẢN HIỆN TẠI: V18 FAST. Đọc CAP_NHAT_V18.txt trước. Các ghi chú bên dưới là lịch sử V17.
+
+V17 Excel Auto: Đã sửa màu tiêu đề, dòng chọn và thanh cuộn ở cả bảng Excel và phụ đề.
+
+V17 EXCEL AUTO — Chọn file Excel là tự nạp, tự điền nguồn, tự bật dịch danh sách.
+Sau đó chỉ cần API key và Bắt đầu dịch (N video). Không cần chọn từng dòng.
+Nút Xem video đã chọn chỉ để xem trước, không chuyển sang dịch riêng một video.
+Nhãn ở menu trái: v17 Excel Auto. Đóng app cũ, giải nén bản mới và chạy START_WINDOWS.bat.
+
+V17 — LIÊN KẾT EXCEL VÀ NÚT DỊCH CHÍNH
+
+01 Thêm video > Nhập danh sách Excel > chọn file, ổ lưu > Nạp danh sách.
+Video local đầu tiên hợp lệ tự điền vào Thêm video và trình phát.
+Checkbox Dịch toàn bộ danh sách tự bật. Điền API key, chọn model/font như thường,
+rồi bấm Bắt đầu dịch (N video). Không cần Bắt đầu nhập trước, cũng không cần
+bấm Dịch video đã chọn từng dòng. App tự nhập rồi dịch các video theo STT.
+Video Việt lưu tại từng thư mục dự án, tên translated_vi.mp4, kèm dữ liệu chỉnh sửa.
+Chọn ổ lưu trong phần Excel; ô tệp đầu ra ở mục 02 hiển thị đường dẫn của
+video hiện tại và khóa chỉnh khi đang chọn chế độ danh sách.
+Đang dịch: vàng. Dịch xong: xanh. Lỗi: đỏ, ghi lý do rồi sang video sau.
+Tien_do.xlsx ghi cả kết quả nhập và dịch, đường dẫn video Việt, lỗi dịch.
+Tạm dừng/Tiếp tục chính điều khiển cả lượt xử lý.
+Chạy lại bỏ qua bản dịch khớp nguồn/cấu hình/SHA256. Đổi model, instruction,
+font/cấu hình chữ hoặc thay nội dung video thì xử lý lại; Quét OCR lại buộc chạy lại.
+Chọn Thêm video trực tiếp hoặc Dịch video đã chọn sẽ trở về dịch một video.
+Bỏ chọn checkbox Dịch toàn bộ danh sách để chỉ dịch video đang ở mục Thêm video.
+
+V17 cập nhật giao diện: Excel nằm trong mục 01 — Thêm video.
+Bấm Nhập danh sách Excel để mở rộng trực tiếp. Không còn menu hay cửa sổ Excel riêng.
+
+V17 cập nhật: cột Link đã nhận đường dẫn video trên máy.
+Đọc phần đầu HUONG_DAN_EXCEL_V17.txt.
+
+V17: Đã thêm 01 — Thêm video > Nhập danh sách Excel, thứ tự/STT, tô màu kết quả, tiếp tục và .frameproj chứa video.
+Đọc HUONG_DAN_EXCEL_V17.txt để chạy tính năng mới.
+
+FRAME VIDEO TRANSLATOR V16 — trình phát, biên tập phụ đề, tạm dừng xử lý
+
+CÁCH DÙNG TÍNH NĂNG MỚI
+1. Giải nén trực tiếp vào C:\Frame, chạy START_WINDOWS.bat để cài/cập nhật.
+   Không sao chép .runtime từ máy cũ. Nếu nâng cấp từ V15, chạy START_WINDOWS
+   ít nhất một lần để bổ sung psutil cho nút tạm dừng trên Windows.
+2. Thêm video gốc: trình phát hiện video; Phát ↔ Tạm dừng, Dừng về đầu, thanh tua.
+3. Bắt đầu dịch. Nút Tạm dừng xử lý nằm ngay cạnh Bắt đầu dịch.
+   Khi tạm dừng, nút đổi thành Tiếp tục. Phần đã xử lý được giữ trong phiên.
+   OCR dừng giữa các lượt đọc. API đang gửi thì chờ phản hồi xong mới dừng;
+   yêu cầu đã gửi vẫn có thể phát sinh chi phí. Nạp model đang chạy cũng chờ xong.
+   FFmpeg được tạm dừng tiến trình riêng. Tiếp tục để hoàn thành tác vụ.
+   Nút trong trình phát chỉ điều khiển phát video, không dừng tác vụ dịch.
+4. Sau khi dịch xong, trình phát mở video kết quả. Bảng BIÊN TẬP PHỤ ĐỀ nằm
+   bên dưới; cuộn xuống nếu màn hình nhỏ.
+5. Chọn dòng: tua về thời điểm đó và xem bản chỉnh trên video GỐC.
+   Sửa tiếng Việt trong bảng hoặc ô văn bản; sửa Bắt đầu / Kết thúc theo giây.
+   X/Y là tâm ngang / đáy của chữ Việt theo pixel gốc; nhập cả hai hoặc để trống.
+6. Font / màu / viền…: chọn font, kích cỡ, màu chữ/viền, bóng, đậm/nghiêng, giãn.
+   Xem bản chỉnh cập nhật bản xem trước trực tiếp. Mẫu xem trước có thể khác nhẹ
+   libass về font và giãn dòng; video xuất là kết quả chính thức.
+7. Có thể Thêm dòng / Xóa dòng. Dòng mới phải nhập bản dịch và thời gian hợp lệ.
+8. Lưu dự án để lưu .project.json. Mở dự án để tiếp tục sửa sau này.
+   Có thể mở .translations.json từ V15 rồi chọn lại video gốc; nếu có thông tin
+   hash nguồn thì app kiểm tra đúng video. Bản V15 không có project phải giữ JSON.
+9. Xuất video đã chỉnh…: chọn MP4 mới. Không cần gọi API hoặc OCR lại;
+   app xuất từ video gốc + dữ liệu phụ đề nên không chèn đè lên bản Việt cũ.
+   Giữ âm thanh gốc. Không nhập video đã dính chữ Việt làm nguồn để sửa chữ.
+10. Đây là biên tập phụ đề/thời gian/vị trí, chưa phải trình dựng nhiều track,
+    cắt ghép cảnh hay thêm nhạc. Bản Python GUI chưa có exe portable dựng sẵn.
+
+TỐI ƯU NẠP OCR
+- Model được giữ trong RAM cho các video kế tiếp trong cùng phiên chạy.
+- Nạp OCR trước: chủ động chuẩn bị model trước khi Bắt đầu dịch.
+- Trình cài không import cả EasyOCR/PyTorch chỉ để kiểm tra thư viện mỗi lần mở.
+- Hiện trạng thái và thời gian chờ khi nạp; model có sẵn, không tự tải lại.
+- Lần đầu mỗi lần mở app vẫn phải đọc model. Chuyển CPU/GPU hoặc thay model cần nạp lại.
+
+HƯỚNG DẪN TÍNH NĂNG NỀN TỪ V15
+
+FRAME VIDEO TRANSLATOR V15 — nâng cấp từ V14
+
+CÀI ĐẶT WINDOWS
+1. Giải nén rồi chạy START_WINDOWS.bat (không bắt buộc C:\Frame). Nếu đường dẫn rất dài, bộ cài tự dùng thư mục ngắn trong AppData.
+2. Máy cần Python x64 và Tkinter/Python launcher. Không mang .runtime từ máy khác.
+3. Chạy START_WINDOWS.bat → Tải thành phần và mở ứng dụng.
+4. Lần đầu tải thư viện Python (PyTorch/Qt có thể lớn). FFmpeg và model OCR đã kèm.
+5. Sau khi cài xong dùng RUN_APP.bat. Nếu chuyển máy/thư mục: dùng START_WINDOWS.bat.
+6. Không cần quyền quản trị. Nếu ổ C không cho tạo thư mục, dùng D:\Frame.
+
+SỬ DỤNG
+- Thêm video gốc đã tải về. Không dùng video đã chèn chữ Việt để dịch lại.
+- Nhập OpenAI API key; khóa chỉ nằm trong phiên, không ghi ra cấu hình.
+- Chọn model: gpt-6.1-sol mặc định; gpt-6-astra/gpt-6-luna hoặc model khác.
+  Model phải khả dụng với API key của bạn. Nếu API báo không có quyền, chọn model khác.
+- Cài đặt: instruction phiên dịch chỉnh sửa được, bảng thuật ngữ Trung = Việt.
+- Cấu hình chữ: chọn font có tiếng Việt, màu, kích cỡ, viền, bóng, đậm/nghiêng.
+- Chọn đầu ra khác video gốc → Bắt đầu dịch.
+- OCR tự quét toàn khung hình; không cần chỉnh số giây.
+- CUDA dùng được nếu PyTorch CUDA và driver phù hợp; không có CUDA thì dùng CPU.
+
+ĐẦU RA
+video_vi.mp4: bản dịch chèn vào hình, âm thanh gốc được copy.
+video_vi.ass: phụ đề có vị trí/thời gian, có thể kiểm tra độc lập.
+video_vi.ocr.meta.json: nhận dạng nguồn bằng SHA-256 để dùng lại OCR đúng video.
+video_vi.ocr.json: chữ Trung, vị trí, thời gian OCR; vẫn còn nếu dịch thất bại.
+video_vi.translations.json: đối chiếu Trung–Việt từng dòng.
+Không ghi API key vào các file này.
+
+Lần chạy lại cùng video và cùng đường dẫn đầu ra tự dùng dữ liệu OCR đã lưu,
+giúp đổi model/instruction/font mà không phải quét lại. Tích Quét OCR lại để làm mới.
+NVENC được thử nếu khả dụng; lỗi thì tự chuyển CPU. Tiến trình xuất có phần trăm.
+
+THAY ĐỔI SO VỚI V14
+- Dò chữ toàn khung hình và đọc thêm vùng chữ ở các mẫu trung gian.
+- Cache chỉ dùng khi vùng chữ gần như không đổi, tự hết hạn nhanh.
+- Đọc lại vùng nhận dạng yếu ở độ phóng đại cao; không bỏ dòng chỉ xuất hiện một lần.
+- Không dùng chung bản dịch cho mọi câu lặp trong toàn video: giữ ngữ cảnh trước/sau.
+- Kiểm tra ID, dịch lại dòng thiếu, dừng xuất nếu chưa đủ bản dịch.
+- Chữ Việt tự xuống dòng, đo kích thước, căn theo từng khung chữ Trung, tránh mép hình.
+- Ưu tiên đặt trên chữ Trung; nếu sát mép trên thì chuyển xuống dưới để đọc được.
+- Giảm chồng lấn các bản dịch xuất hiện đồng thời; cảnh quá nhiều chữ vẫn có thể chồng.
+- Thông tin FFprobe đọc UTF-8, thông báo rõ dữ liệu rỗng; kiểm tra runtime cũ khi mở.
+
+GIỚI HẠN VÀ KIỂM THỬ
+OCR có thể sai/bỏ sót chữ nhỏ, mờ, cách điệu, xoay, xuất hiện cực nhanh.
+Không có cam kết dịch 100% mọi chữ. GPU/Windows/API thật cần kiểm tra trên máy của bạn.
+Bản này là ứng dụng Python GUI kèm tài nguyên, không phải exe portable có sẵn Python.
+Không kèm API key. build_windows.bat tạo exe trên Windows khi cần.

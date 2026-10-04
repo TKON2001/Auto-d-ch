@@ -1,0 +1,117 @@
+BẢN HIỆN TẠI V19. Đọc CAP_NHAT_V19.txt trước. Ghi chú bên dưới là hướng dẫn/lịch sử bản trước.
+
+V17 EXCEL AUTO — Chọn file Excel là tự nạp, tự điền nguồn, tự bật dịch danh sách.
+Sau đó chỉ cần API key và Bắt đầu dịch (N video). Không cần chọn từng dòng.
+Nút Xem video đã chọn chỉ để xem trước, không chuyển sang dịch riêng một video.
+Nhãn ở menu trái: v17 Excel Auto. Đóng app cũ, giải nén bản mới và chạy START_WINDOWS.bat.
+
+V17 — LIÊN KẾT EXCEL VÀ NÚT DỊCH CHÍNH
+
+01 Thêm video > Nhập danh sách Excel > chọn file, ổ lưu > Nạp danh sách.
+Video local đầu tiên hợp lệ tự điền vào Thêm video và trình phát.
+Checkbox Dịch toàn bộ danh sách tự bật. Điền API key, chọn model/font như thường,
+rồi bấm Bắt đầu dịch (N video). Không cần Bắt đầu nhập trước, cũng không cần
+bấm Dịch video đã chọn từng dòng. App tự nhập rồi dịch các video theo STT.
+Video Việt lưu tại từng thư mục dự án, tên translated_vi.mp4, kèm dữ liệu chỉnh sửa.
+Chọn ổ lưu trong phần Excel; ô tệp đầu ra ở mục 02 hiển thị đường dẫn của
+video hiện tại và khóa chỉnh khi đang chọn chế độ danh sách.
+Đang dịch: vàng. Dịch xong: xanh. Lỗi: đỏ, ghi lý do rồi sang video sau.
+Tien_do.xlsx ghi cả kết quả nhập và dịch, đường dẫn video Việt, lỗi dịch.
+Tạm dừng/Tiếp tục chính điều khiển cả lượt xử lý.
+Chạy lại bỏ qua bản dịch khớp nguồn/cấu hình/SHA256. Đổi model, instruction,
+font/cấu hình chữ hoặc thay nội dung video thì xử lý lại; Quét OCR lại buộc chạy lại.
+Chọn Thêm video trực tiếp hoặc Dịch video đã chọn sẽ trở về dịch một video.
+Bỏ chọn checkbox Dịch toàn bộ danh sách để chỉ dịch video đang ở mục Thêm video.
+
+V17 cập nhật giao diện: Excel nằm trong mục 01 — Thêm video.
+Bấm Nhập danh sách Excel để mở rộng trực tiếp. Không còn menu hay cửa sổ Excel riêng.
+
+V17 CẬP NHẬT — ĐƯỜNG DẪN VIDEO TRÊN MÁY
+
+Cột Link có thể là D:\Video\video01.mp4 hoặc E:\Douyin\video02.mp4.
+Mỗi dòng một file; STT xác định thứ tự. Đường dẫn có khoảng trắng/dấu tiếng Việt được hỗ trợ.
+Đường dẫn tương đối được tính từ thư mục chứa Excel, ví dụ Video\video01.mp4.
+Hyperlink file:// cũng nhận được. Link web vẫn dùng như trước.
+
+Chọn 01 — Thêm video > Nhập danh sách Excel > file Excel > thư mục đích > Bắt đầu nhập.
+Với file local, app sao chép file, không tải qua mạng, không dùng yt-dlp.
+Không cần API key/OCR cho bước nhập. Chỉ khi bấm dịch mới dùng API và OCR.
+File nguồn giữ nguyên; file thiếu hoặc sai định dạng báo đỏ và chuyển sang dòng sau.
+Sao chép xong, kiểm tra ffprobe và tạo .frameproj chứa video rồi mới tô xanh.
+Video đã nhập được bỏ qua khi chạy lại; nếu file nguồn đổi nội dung sẽ nhập lại.
+Nếu file gốc đã xóa nhưng bản dự án vẫn nguyên vẹn, app giữ kết quả đã nhập.
+Tạm dừng/Tiếp tục có tác dụng giữa các khối sao chép.
+Excel gốc giữ nguyên; xem màu tại Tien_do.xlsx trong thư mục dự án.
+
+Danh_sach_video_mau.csv đã đổi thành mẫu đường dẫn local.
+Mở bằng Excel, sửa đường dẫn khớp máy bạn và Save As .xlsx.
+Các đường dẫn mẫu chưa trỏ tới file thật trên máy bạn.
+
+FRAME V17 — TẢI VIDEO HÀNG LOẠT THEO EXCEL
+
+1. Giải nén trực tiếp vào C:\Frame. Chạy START_WINDOWS.bat.
+   Lần đầu V17 bổ sung openpyxl và yt-dlp vào môi trường riêng.
+   Đây là sản phẩm GUI Python có kèm FFmpeg và model OCR, không phải EXE portable.
+
+2. Trong Excel tạo bảng, dòng đầu là tiêu đề:
+   STT | Link | Tên
+   1   | link video thứ nhất | Tên video 1
+   2   | link video thứ hai | Tên video 2
+   Lưu thành .xlsx. CSV UTF-8 cũng dùng được. .xls cần lưu lại thành .xlsx.
+   Chỉ Link/URL bắt buộc. STT và Tên tùy chọn.
+   Có STT: tải tăng dần, số trùng giữ thứ tự dòng. STT phải là số dương.
+   Không có cột STT: tải từ trên xuống. Dòng link trống được bỏ qua.
+   Nếu nhiều sheet, chọn đúng sheet. Không dùng công thức để sinh link;
+   dùng URL thật hoặc hyperlink gắn trong ô. Link chia sẻ kèm chữ được tách URL.
+   Nút Lưu mẫu CSV cung cấp mẫu mở bằng Excel để bạn điền.
+
+3. Bấm 01 — Thêm video > Nhập danh sách Excel ở menu trái.
+   Chọn file, sheet, thư mục trên ổ cần lưu; bấm Nạp danh sách.
+   Chọn cookies Netscape .txt nếu trang yêu cầu (không lưu vào gói dự án).
+   Bấm Bắt đầu tải. Không cần API key, không nạp OCR trong bước tải.
+   App tải một video mỗi lần, không tải song song.
+   Nhật ký hiện tiến độ yt-dlp, lỗi và đường dẫn cuối cùng.
+
+4. Xanh: tải xong, ffprobe kiểm tra có video và thời lượng >0,
+   tệp dự án được tạo thành công. Đỏ: lỗi, ghi nguyên nhân và sang dòng sau.
+   Tạm dừng/Tiếp tục: giữ tiến trình tải hiện tại; ghép FFmpeg con có thể
+   hoàn thành phần đang chạy trước khi tiến trình tải chính tiếp tục.
+   Dừng sau video này: hoàn tất video hiện tại rồi dừng; không hủy giữa file.
+   Chờ kết thúc tác vụ trước khi đóng cửa sổ tải.
+
+5. Thư mục đích có một thư mục Du_an_<tên Excel>_<mã> gồm:
+   project.json: danh sách và tiến độ.
+   Tien_do.xlsx: bản Excel kết quả, dòng xanh/đỏ và trạng thái/đường dẫn/lỗi.
+   0001_<tên>_<mã>\source.mp4 (hoặc định dạng tải thực tế).
+   0001_<tên>_<mã>\project.json: thông tin nguồn, thời lượng, SHA256.
+   0001_<tên>_<mã>\0001_<tên>_<mã>.frameproj: MỘT TỆP dự án chứa video và thông tin nguồn.
+   Các thư mục tiếp theo là 0002, 0003... theo thứ tự xử lý.
+   .frameproj là ZIP không nén lại video, để đóng gói nhanh.
+   Vì giữ cả video làm việc và video trong dự án, dự trù khoảng gấp đôi
+   dung lượng video tải về; quá trình tải/ghép còn cần dung lượng tạm.
+   Tệp dự án này chứa video gốc, chưa chứa bản dịch/chỉnh sửa tạo về sau.
+
+6. Excel gốc KHÔNG bị sửa. Xem tô màu ở Tien_do.xlsx.
+   Đóng Tien_do.xlsx trong Excel trước khi cập nhật. Nếu bị khóa,
+   tiến độ vẫn được giữ ở project.json; đóng Excel rồi bấm Lưu Excel.
+
+7. Mở lại cùng danh sách chưa sửa và cùng thư mục đích để tiếp tục.
+   Video đã hoàn tất và khớp SHA256 được bỏ qua. Video thiếu/thay đổi được tải lại.
+   Dòng lỗi hợp lệ được thử lại. Sửa STT/link/tên hay đổi tên file Excel
+   tạo một danh sách dự án khác để tránh trộn nhầm kết quả.
+
+8. Chọn dòng xanh > Dịch video đã chọn: nạp video vào giao diện dịch V16/V17.
+   Các phần dịch, chỉnh font, phát/tua và biên tập phụ đề vẫn dùng như V16.
+   Muốn mở một tệp dự án trên máy khác: 01 — Thêm video > Nhập danh sách Excel > Mở .frameproj,
+   chọn thư mục giải nén. App kiểm tra SHA256 rồi nạp video gốc để dịch.
+   Tệp .frameproj mang được sang máy khác mà không cần video nằm ngoài tệp.
+
+9. TikTok/Douyin/YouTube và các trang khác phụ thuộc bộ trích xuất yt-dlp,
+   quyền truy cập và thay đổi của trang. Có link tải được, có link yêu cầu
+   cookies hoặc bị chặn. Không bảo đảm mọi link Douyin đều tải được.
+   Trường hợp bị chặn: tải video bằng phương thức bạn có quyền sử dụng,
+   rồi dùng Thêm video ở giao diện chính.
+   Link playlist bị giới hạn một video; mỗi dòng nên trỏ tới một video cụ thể.
+
+KIỂM THỬ: đọc KIEM_THU_V17.txt. Chưa chạy trực tiếp trên Windows thật
+hoặc kiểm chứng link TikTok/Douyin công khai trong phiên này.

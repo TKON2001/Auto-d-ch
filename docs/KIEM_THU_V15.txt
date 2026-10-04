@@ -1,0 +1,44 @@
+KIỂM THỬ V15 — 02/10/2026
+
+Nguồn nâng cấp: thư mục FrameVideoTranslator_v14_Full.
+Video xem xét: snapdouyin.app-hd-1790849164673_vi.mp4, 1024x576,
+25fps, 232.083 giây. Video gốc đã có trong phiên làm việc cũng chứa cùng cảnh.
+Đã xem ảnh mẫu xuyên suốt video, kiểm tra chi tiết đoạn đầu và vùng khoảng 185s.
+Không phải kiểm tra thủ công mọi khung hình của cả video.
+
+PHÁT HIỆN
+- Khoảng giây 1: có dòng 发动机要加两个涡轮 nhưng không có dòng Việt.
+- Chữ dọc tên/chức danh bị tách, có bản dịch đơn lẻ “Phạm”.
+- Một số câu Việt dịch sát chữ, không tự nhiên.
+- Ngưỡng tin cậy EasyOCR .10 làm mất cả câu đọc gần đúng nhưng điểm rất thấp.
+- Gom chuỗi giống hệt và dùng bản dịch chung toàn video làm yếu khả năng giữ ngữ cảnh.
+
+KẾT QUẢ THỬ
+- 19 kiểm tra tự động: PASS. Bao gồm GUI chọn file/thư mục, API hiện/ẩn,
+  bản dịch thiếu/ID trùng/rỗng, ngữ cảnh câu lặp, giữ nhiều vị trí chữ,
+  nối thời gian, xuống dòng/tràn mép, SHA-256 cache, phân vùng chữ dọc.
+- OCR thật: đoạn 0–3s từ video đã dịch. V14: ~25.0s, 3 quan sát Chinese
+  vượt ngưỡng. V15: ~30.5s, 61 quan sát Chinese (nhiều mẫu hơn, ngưỡng khác).
+  Đây không phải tỷ lệ chính xác; vẫn có chữ nhận dạng sai ở tiêu đề/chữ dọc.
+  Không thể suy ra tốc độ toàn video hoặc tốc độ trên máy Windows từ đoạn này.
+- Đọc lại chữ trắng khôi phục câu về hai bộ tăng áp ở đoạn trước bị bỏ sót.
+  Thử khung hình video gốc cũng cho thấy lỗi OCR chưa được loại bỏ hoàn toàn.
+- Xuất thật đoạn thử 3s, bản dịch mẫu viết tay để kiểm tra vị trí.
+  Hình kết quả: chữ Việt nằm phía trên đúng dòng Trung.
+  69 gói âm thanh có hash SHA-256 giữ nguyên so với đoạn nguồn thử.
+- Kiểm tra cú pháp mọi module: PASS.
+- Không có API key để gọi dịch thật: kiểm tra API bằng phản hồi giả lập,
+  chưa đánh giá chất lượng bản dịch cuối cùng từ model GPT mới.
+- Chưa chạy cài đặt trên máy Windows thật, chưa build exe và chưa benchmark CUDA/NVENC.
+
+TỐC ĐỘ
+V15 ưu tiên nhận thêm chữ; không khẳng định lần quét CPU đầu tiên nhanh hơn.
+Chạy lại cùng video/cùng đầu ra tự bỏ OCR khi SHA-256 và chính sách khớp.
+Render thử NVIDIA NVENC nếu dùng được; thất bại quay về CPU x264.
+
+TÀI LIỆU API ĐÃ ĐỐI CHIẾU
+https://developers.openai.com/api/docs/models
+https://developers.openai.com/api/docs/guides/structured-outputs
+https://developers.openai.com/api/docs/guides/latest-model
+Model mặc định gpt-6.1-sol; quyền truy cập do tài khoản API quyết định.
+Không hứa nhận diện/dịch được 100% chữ trong mọi video.

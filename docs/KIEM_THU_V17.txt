@@ -1,0 +1,46 @@
+BẢN HIỆN TẠI: V18 FAST. Đọc CAP_NHAT_V18.txt trước. Các ghi chú bên dưới là lịch sử V17.
+
+V17 EXCEL AUTO: 45 kiểm tra PASS; hai kiểm tra mới mô phỏng đúng thao tác
+chọn file qua hộp thoại -> tự nạp -> bấm dịch chính -> chạy đủ hai video.
+Không bấm Nạp danh sách, Bắt đầu nhập hay chọn từng dòng trong bài kiểm tra.
+Pipeline dịch giả lập, chưa gọi API thật hoặc kiểm thử Windows thật.
+
+V17 LIÊN KẾT EXCEL VỚI NÚT DỊCH
+43 kiểm tra PASS, gồm tự điền nguồn sau nạp, nút chính bắt đầu worker danh sách,
+xử lý theo STT, lỗi một dòng không chặn dòng sau, lưu trạng thái/Excel,
+bỏ qua bản dịch hoàn tất và xử lý lại khi đổi cấu hình.
+Kiểm tra pipeline mới dùng hàm dịch giả lập; chưa gọi GPT API thật.
+Không tuyên bố kiểm thử bản dịch thực tế hay Windows thật trong lượt cập nhật này.
+Kiểm tra OCR Reader cũ chưa chạy lại vì QA không có torch; code OCR không đổi.
+
+CẬP NHẬT GIAO DIỆN INLINE
+40 kiểm tra PASS: gồm đặt Excel trong mục 01, không tạo cửa sổ riêng,
+ẩn/hiện tại chỗ và khóa tác vụ dịch trong khi nhập danh sách.
+Đã xem ảnh giao diện thật sau thay đổi.
+Kiểm tra OCR Reader cũ vẫn chưa chạy lại do môi trường QA không có torch.
+Chưa chạy trên Windows thật.
+
+CẬP NHẬT LOCAL V17
+38 kiểm tra PASS (bao gồm 3 kiểm tra local mới).
+Một kiểm tra OCR Reader V16 chưa chạy lại vì QA không có torch; OCR không đổi.
+Sao chép thực tế hai video MP4 có âm thanh theo STT, đóng gói và mở lại
+.frameproj, so SHA256 với video gốc: PASS.
+Không gọi yt-dlp với file local; missing file, đường dẫn có dấu, relative/file URI,
+pause/resume sao chép và thay đổi nội dung nguồn đã kiểm tra.
+Chưa kiểm thử trực tiếp trên Windows thật.
+
+V17 — KẾT QUẢ KIỂM THỬ
+
+8 kiểm tra mới PASS: thứ tự, URL chia sẻ, màu Excel/UI, tiếp tục và SHA256,
+dừng sau video, Excel bị khóa, STT trùng/rỗng, chặn đường dẫn ngoài dự án,
+đọc .xlsx, đóng gói/mở .frameproj.
+
+35 kiểm tra hồi quy/tính năng PASS tổng cộng trong runtime QA Linux.
+Một kiểm tra OCR Reader cũ của V16 chưa chạy lại do QA runtime này không có torch;
+code OCR không thay đổi. Không tuyên bố kiểm thử OCR thực tế trong V17.
+
+Tải thực tế 2 video MP4 mẫu từ HTTP server cục bộ qua yt-dlp subprocess:
+đúng thứ tự, ffprobe xác minh, .frameproj đóng gói và mở lại khớp SHA256: PASS.
+Kiểm tra giao diện thực tế và biên dịch cú pháp các file Python: PASS.
+Chưa chạy Windows thật; chưa tải link TikTok/Douyin công khai trong phiên này.
+Không kiểm chứng mọi website hay đảm bảo mọi link tải được.

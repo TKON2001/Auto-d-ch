@@ -1,0 +1,55 @@
+BẢN HIỆN TẠI V19. Đọc CAP_NHAT_V19.txt trước. Ghi chú bên dưới là hướng dẫn/lịch sử bản trước.
+
+V18 ADAPTIVE — QUÉT THÍCH ỨNG
+
+Thay bộ quét cố định bằng theo dõi vùng chữ bằng template matching. Kiểm tra ảnh 8 lần/giây; chạy bộ dò toàn khung định kỳ 0,75 giây trên CPU / 0,5 giây trên GPU; dò sớm khi mất theo dõi, dấu hiệu chữ sáng mới hoặc đổi cảnh. Vùng chữ ổn định và tin cậy được tái dùng tối đa 2 giây, sau đó đọc lại để kiểm tra. So sánh luôn với ảnh tại lần nhận dạng, tránh bỏ qua thay đổi tích lũy.
+
+Giữ toàn khung, không giới hạn chỉ phụ đề dưới. Bộ kích hoạt nhẹ ưu tiên chữ sáng; chữ tối/màu không được bộ kích hoạt tìm thấy vẫn dựa vào dò toàn khung định kỳ. Chữ xuất hiện cực ngắn, quá nhỏ, mờ hoặc cách điệu vẫn có thể bị bỏ sót. Kiểm tra video đầu ra thực tế, không coi đây là bảo đảm nhận đủ mọi chữ.
+
+KẾT QUẢ KIỂM TRA: 24 tests đạt gồm pipeline, recovery/cache, OCR thích ứng, theo dõi di chuyển, phát hiện vùng mới. Video kiểm tra tổng hợp 4 giây dùng 6 lượt dò toàn khung thay cho khoảng 16 lượt theo lịch cũ, đồng thời tìm thấy chữ mới. Reader OCR giả lập, không phải đo tốc độ/độ chính xác EasyOCR thật; không suy ra hệ số tăng tốc video của bạn.
+
+CÁCH CHẠY: Đóng app cũ, giải nén bản mới vào thư mục riêng; START_WINDOWS.bat. Tiêu đề V18 Adaptive. Giữ thư mục dự án cũ để dùng cache; muốn kiểm chứng quét mới trên video đã quét thì chọn quét lại OCR trong cấu hình. Log cuối OCR cho biết lượt dò/đọc/tái dùng và thời gian.
+
+V18 RECOVERY — CPU NHẸ
+
+OCR dùng 1 luồng CPU trên máy dưới 8 CPU logic, 2 luồng trên máy từ 8 CPU logic; OpenCV 1 luồng; bộ giải mã OpenCV/FFmpeg 1 luồng nếu bản thư viện hỗ trợ. FFmpeg xuất 1–2 luồng, lọc phụ đề 1 luồng, ưu tiên Below Normal trên Windows. Không giảm tần suất quét hay chất lượng dịch. CUDA/NVENC vẫn dùng khi có hỗ trợ.
+
+Đây là giới hạn luồng, không phải khóa CPU ở một tỷ lệ phần trăm cố định. Máy ít lõi vẫn có thể tải cao; chạy CPU có thể lâu hơn trước. Đóng app cũ trước khi chạy bản mới để không có hai tiến trình OCR cùng lúc.
+
+KIỂM TRA: 8 tests tài nguyên/cache/recovery đạt; xuất MP4 thật 2 giây bằng CPU FFmpeg trên Linux, có cả video và âm thanh. Chưa đo CPU trên Windows của người dùng, chưa thử model EasyOCR thật.
+
+V18 RECOVERY — SỬA LỖI BẢN DỊCH KHÔNG HỢP LỆ
+
+Giữ từng dòng hợp lệ; bỏ ID ngoài yêu cầu và dòng rỗng. ID trùng giống nhau nhận một lần, trùng khác nghĩa sẽ yêu cầu lại. Tự thử lại và chia đôi nhóm lỗi đến từng dòng, giữ nguyên ID/ngữ cảnh. Cache V18 trước tương thích.
+
+Nếu model vẫn không trả bản dịch cho vài dòng sau các lần thử: xuất translated_vi_partial.mp4, những dòng đó hiện [Chưa dịch] + chữ gốc. Đây là video tạm, không báo dịch hoàn tất. Video hoàn chỉnh vẫn là translated_vi.mp4 khi đủ mọi dòng. Chạy lại cùng dự án/đầu ra để tiếp tục từ cache. Lỗi mạng/quyền API/FFmpeg vẫn có thể ngăn xuất; không bảo đảm luôn ra video khi thành phần ngoài bị lỗi.
+
+CÁCH CẬP NHẬT: Đóng app; giải nén bản mới vào thư mục riêng; chạy START_WINDOWS.bat. Chọn lại Excel và đúng thư mục đích cũ, hoặc video gốc và đúng đầu ra cũ. Không xóa thư mục dự án/cache.
+
+KIỂM TRA BỔ SUNG: 9 tests đạt, gồm phản hồi lỗi, chia nhỏ, giữ cache, lỗi kéo dài và luồng xuất video tạm (mock renderer/API). Chưa thử API thật hay Windows. 49 kiểm tra của V18 ban đầu là lịch sử trước sửa này.
+
+FRAME VIDEO TRANSLATOR — V18 FAST
+
+CÁCH CHẠY
+1. Giải nén vào thư mục riêng, ví dụ C:\FrameV18. Không ghi đè khi app cũ đang chạy.
+2. Chạy START_WINDOWS.bat. Lần đầu vẫn cần Python và cài thư viện.
+3. Nhập API key; chọn video hoặc Excel trong mục 01, rồi Bắt đầu dịch.
+4. Bật GPU nếu máy có NVIDIA và bản PyTorch hỗ trợ CUDA. Log OCR phải ghi CUDA mới xác nhận OCR dùng GPU; NVENC là GPU xuất video, độc lập với CUDA.
+
+TỐI ƯU V18
+- Giữ nguyên dò toàn khung và kiểm tra vùng chữ 8 lần/giây.
+- Chỉ tái dùng chữ độ tin cậy >=0,65 nếu vùng ảnh xám gần như không đổi, tối đa 1 giây trước khi đọc lại. Chữ đổi sẽ đọc lại; vẫn có rủi ro với thay đổi rất nhỏ/mờ nên cần kiểm tra video thực tế.
+- CUDA gom vùng ngang cùng khung vào một lượt nhận diện, tối đa 16 vùng. Kết quả không khớp vị trí sẽ đọc riêng; chữ dọc và đọc lại chữ khó vẫn giữ luồng cũ.
+- Dịch 48 dòng mỗi nhóm thay vì 24, giữ ngữ cảnh trước/sau và bản dịch nhóm trước. Không chạy các nhóm đồng thời để giữ xưng hô/tên riêng.
+- Lưu *.translation_cache.json từng phần sau phản hồi hợp lệ. Khi mạng lỗi hoặc cần xuất lại, dùng lại dòng dịch đã lưu, không gửi lại API.
+- Cache gắn với toàn bộ dòng OCR, thời gian, model, instruction và glossary. Thay một trong các yếu tố này sẽ dịch mới. Không lưu API key trong cache.
+- Giữ xuất NVIDIA NVENC và CPU dự phòng; chỉ kiểm tra khả năng NVENC một lần trong phiên, giảm chi phí khởi động khi chạy Excel nhiều video.
+- Log thời gian OCR, dịch API/cache và xuất video để xác định chỗ chậm trên từng máy.
+
+GIỮ LẠI
+Excel tự nạp và dịch theo STT, tạm dừng/tiếp tục, phát video thật, chỉnh phụ đề và kiểu chữ, tiếng Việt ở trên tiếng Trung, âm thanh gốc.
+
+KIỂM TRA
+49 bài kiểm tra tự động đạt: luồng GUI/Excel, cache, lỗi mạng, instruction thay đổi, vùng chữ thay đổi và OCR nhóm GPU bằng reader giả lập.
+Chưa chạy API thật, model EasyOCR thật/CUDA hay Windows trong môi trường kiểm tra. Không cam kết hệ số tăng tốc; OCR/model/API/độ phân giải và CPU/GPU ảnh hưởng lớn.
+Mô hình OCR và FFmpeg Windows được giữ trong gói. Chưa có tối ưu phần cài thư viện đầu tiên hoặc tăng tốc bằng Intel/AMD.
